@@ -1,0 +1,36 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: FINFLOW
+  
+  # MySQL Database Configuration
+  datasource:
+    url: jdbc:mysql://localhost:3306/finflow_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: Sonu@05mysql
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # JPA & Hibernate Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  # Redis Configuration
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+# Custom Application Properties (For later stages)
+finflow:
+  security:
+    jwt:
+      secret-key: aVeryLongSecretKeyThatIsAtLeast256BitsLongForSecureJwtEncryption12345!
+      expiration-time: 900000 # 15 minutes in milliseconds
