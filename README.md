@@ -23,7 +23,9 @@ The platform utilizes a microservice-oriented design, orchestrating a React.js c
 graph TD
     Client[React.js SPA] -->|HTTPS / JWT| API(Spring Boot REST API)
     Client -->|STOMP WebSockets| Socket(Live Notification Broker)
-
+    
+    API -->|SimpMessagingTemplate| Socket
+    
     API <-->|Spring Data JPA| DB[(MySQL 8.0 Vault)]
     API <-->|Lettuce Client| Cache[(Redis Port 6380)]
     API <-->|AES-256| Stripe[Stripe Payment Gateway]
