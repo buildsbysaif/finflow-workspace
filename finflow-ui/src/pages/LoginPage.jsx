@@ -38,7 +38,8 @@ const LoginPage = () => {
         setLoading(true);
         try {
             await login(email, password);
-            navigate('/');
+            window.location.href = '/';
+            
         } catch (err) {
             setError(err.response?.data?.message || 'Invalid credentials provided.');
         } finally {
