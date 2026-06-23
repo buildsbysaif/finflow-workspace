@@ -19,7 +19,10 @@ const DashboardPage = () => {
     
     const [wallet, setWallet] = useState(null);
     const [transactions, setTransactions] = useState([]);
+    
     const [loading, setLoading] = useState(true);
+    const [isAuthenticating, setIsAuthenticating] = useState(true);
+    
     const [activeTab, setActiveTab] = useState('overview'); 
     
     const [clusterStatus, setClusterStatus] = useState('pinging');
@@ -30,19 +33,30 @@ const DashboardPage = () => {
     const [stompStatus, setStompStatus] = useState('connecting'); 
     const [invoiceRefreshTrigger, setInvoiceRefreshTrigger] = useState(0); 
 
+    useEffect(() => {
+        const authTimer = setTimeout(() => {
+            if (!user || !user.email) {
+                navigate('/login', { replace: true });
+            } else {
+                setIsAuthenticating(false);
+            }
+        }, 150);
+        return () => clearTimeout(authTimer);
+    }, [user, navigate]);
+
     const fetchDashboardData = async () => {
         try {
             const walletData = await getMyWallet();
             const txData = await getTransactionHistory();
             setWallet(walletData);
             setTransactions(txData);
-            
         } catch (error) {
             console.error("Failed to fetch ledger data", error);
-
-            if (error?.response?.status === 401) {
-                logout();
-                navigate('/login');
+            
+            const status = error?.response?.status;
+            if (status === 401 || status === 403 || !status) {
+                logout(); // Purge ghost data
+                navigate('/login', { replace: true });
             }
         } finally {
             setLoading(false);
@@ -50,8 +64,10 @@ const DashboardPage = () => {
     };
 
     useEffect(() => {
-        fetchDashboardData();
-    }, []);
+        if (user && user.email) {
+            fetchDashboardData();
+        }
+    }, [user]);
 
     useEffect(() => {
         if (!user?.email) return;
@@ -103,7 +119,7 @@ const DashboardPage = () => {
 
     const handleLogout = () => {
         logout();
-        navigate('/login');
+        navigate('/login', { replace: true });
     };
 
     const handleDownloadStatement = async () => {
@@ -121,11 +137,11 @@ const DashboardPage = () => {
         }
     };
 
-    if (loading) {
+    if (loading || isAuthenticating) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 text-slate-900 font-sans">
                 <Hexagon className="text-indigo-600 animate-spin mb-4" size={40} />
-                <p className="font-mono text-xs tracking-widest uppercase text-slate-500 font-bold">Synchronizing Ledger...</p>
+                <p className="font-mono text-xs tracking-widest uppercase text-slate-500 font-bold">Verifying Secure Session...</p>
             </div>
         );
     }
