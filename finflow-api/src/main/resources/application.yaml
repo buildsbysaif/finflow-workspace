@@ -4,12 +4,14 @@ server:
 spring:
   application:
     name: FINFLOW
+
+  config:
+    import: optional:file:.env[.properties], optional:file:finflow-api/.env[.properties]
   
-  # MySQL Database Configuration
   datasource:
-    url: jdbc:mysql://localhost:3306/finflow_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    username: root
-    password: Sonu@05mysql
+    url: jdbc:mysql://localhost:3307/finflow_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME}       # Reads from .env
+    password: ${DB_PASSWORD}       # Reads from .env
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   # JPA & Hibernate Configuration
@@ -26,11 +28,38 @@ spring:
   data:
     redis:
       host: localhost
-      port: 6379
+      port: 6380
 
-# Custom Application Properties (For later stages)
+  #Email SMTP Configuration
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    port: 2525
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 finflow:
   security:
     jwt:
-      secret-key: aVeryLongSecretKeyThatIsAtLeast256BitsLongForSecureJwtEncryption12345!
-      expiration-time: 900000 # 15 minutes in milliseconds
+      secret-key: ${JWT_SECRET_KEY}      # Reads from .env
+      expiration-time: 86400000          # 24 hours
+
+stripe:
+  api:
+    key: ${STRIPE_SECRET_KEY}            # Reads from .env
+
+
+#Actuator Production Monitoring 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,metrics,info"
+  endpoint:
+    health:
+      show-details: always # Forces Spring to print DB and Redis health statuses

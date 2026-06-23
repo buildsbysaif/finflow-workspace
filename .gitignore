@@ -1,0 +1,16 @@
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.log
+
+# Environment variables
+.env
+.env.local
+
+# Build directories (just in case)
+node_modules/
+target/
+build/
+dist/

@@ -1,0 +1,12 @@
+spring:
+  # Override Database URLs to target the Docker internal service name: 'mysql-db'
+  datasource:
+    url: "jdbc:mysql://mysql-db:3306/finflow_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
+    username: root
+    password: "Sonu@05mysql"
+
+  # Override Redis host to target the Docker internal service name: 'redis-cache'
+  data:
+    redis:
+      host: redis-cache
+      port: 6379

@@ -31,3 +31,14 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Exclude environment variables
+.env
+.env.*
+
+# Standard Java ignores
+target/
+*.class
+*.jar
+.idea/
+.vscode/
