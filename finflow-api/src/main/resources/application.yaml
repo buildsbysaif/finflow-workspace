@@ -2,8 +2,11 @@ server:
   port: 8080
 
 spring:
+  profiles:
+    active: dev
+
   application:
-    name: FINFLOW
+    name: FINFLOW 
 
   config:
     import: optional:file:.env[.properties], optional:file:finflow-api/.env[.properties]

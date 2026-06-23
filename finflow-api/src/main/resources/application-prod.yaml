@@ -1,0 +1,62 @@
+
+# PRODUCTION ENVIRONMENT PROFILE
+
+server:
+  port: ${PORT:8080}
+
+spring:
+  
+  # AIVEN MYSQL CONFIGURATION
+  datasource:
+    url: jdbc:mysql://finflow-mysql-prod-finflow-workspace.h.aivencloud.com:10771/defaultdb?ssl-mode=REQUIRED
+    username: avnadmin
+    password: ${AIVEN_DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # JPA & Hibernate Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update 
+    show-sql: false  
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  # AIVEN REDIS (VALKEY) CONFIGURATION
+  data:
+    redis:
+      url: ${AIVEN_REDIS_URL}
+
+  # Email SMTP Configuration
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    port: 2525
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+# SECURITY & INTEGRATIONS
+finflow:
+  security:
+    jwt:
+      secret-key: ${JWT_SECRET_KEY}      
+      expiration-time: 86400000          
+
+stripe:
+  api:
+    key: ${STRIPE_SECRET_KEY}            
+
+# Actuator Production Monitoring 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,metrics,info"
+  endpoint:
+    health:
+      show-details: always
