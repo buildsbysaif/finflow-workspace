@@ -53,7 +53,7 @@ const DashboardPage = () => {
         const safeUserEmail = user.email.toLowerCase().trim();
 
         const stompClient = new Client({
-            brokerURL: 'ws://localhost:8080/ws-finflow',
+            brokerURL: 'wss://finflow-api-f9z7.onrender.com/ws-finflow',
             reconnectDelay: 3000,
             heartbeatIncoming: 4000,
             heartbeatOutgoing: 4000,
@@ -358,9 +358,9 @@ const DashboardPage = () => {
                             <h4 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-3">System Status</h4>
                             <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 space-y-1.5">
                                 <div className="flex items-center space-x-2">
-                                    {clusterStatus === 'connected' ? <><div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div><span className="text-[11px] font-bold text-slate-700 uppercase tracking-wider">Local Host Active</span></> : <><div className="w-1.5 h-1.5 rounded-full bg-rose-500"></div><span className="text-[11px] font-bold text-slate-700 uppercase tracking-wider">API Offline</span></>}
+                                    {clusterStatus === 'connected' ? <><div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div><span className="text-[11px] font-bold text-slate-700 uppercase tracking-wider">Cloud Link Active</span></> : <><div className="w-1.5 h-1.5 rounded-full bg-rose-500"></div><span className="text-[11px] font-bold text-slate-700 uppercase tracking-wider">API Offline</span></>}
                                 </div>
-                                <p className="text-[10px] text-slate-500 font-medium">React proxying strictly to local Spring Boot backend.</p>
+                                <p className="text-[10px] text-slate-500 font-medium">React proxying strictly to live Render Spring Boot backend.</p>
                             </div>
                         </div>
                     </div>
