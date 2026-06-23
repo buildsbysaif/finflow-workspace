@@ -11,13 +11,22 @@ const RegisterPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsSubmitting(true);
         setError('');
+
+        // --- NEW: Frontend Validation Check ---
+        if (formData.password.length < 8) {
+            setError('Password must be at least 8 characters long.');
+            return;
+        }
+
+        setIsSubmitting(true);
         try {
             await api.post('/auth/register', formData);
             navigate('/login');
         } catch (err) {
-            setError(err.response?.data?.message || 'Registration failed. This email address may already be in use.');
+            // Enhanced error mapping
+            const serverMessage = err.response?.data?.message || err.response?.data?.error;
+            setError(serverMessage || 'Registration failed. This email address may already be in use.');
             setIsSubmitting(false);
         }
     };
@@ -122,6 +131,8 @@ const RegisterPage = () => {
                                     type="password" 
                                     required 
                                     placeholder="••••••••"
+                                    // Added minLength attribute for built-in HTML5 validation fallback
+                                    minLength="8" 
                                     className="w-full pl-10 pr-3 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-600 focus:border-transparent transition-all outline-none text-slate-900 font-medium text-sm" 
                                     onChange={e => setFormData({...formData, password: e.target.value})} 
                                 />
@@ -131,7 +142,7 @@ const RegisterPage = () => {
 
                         <button 
                             type="submit" 
-                            disabled={isSubmitting}
+                            disabled={isSubmitting || formData.password.length > 0 && formData.password.length < 8}
                             className="w-full group flex justify-center items-center bg-slate-900 text-white font-semibold py-3.5 px-4 rounded-xl hover:bg-indigo-600 transition-all duration-200 shadow-sm disabled:opacity-50 text-sm mt-4 cursor-pointer"
                         >
                             {isSubmitting ? 'Creating account...' : 'Create account'}
