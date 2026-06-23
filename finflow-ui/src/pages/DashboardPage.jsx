@@ -30,6 +30,13 @@ const DashboardPage = () => {
     const [stompStatus, setStompStatus] = useState('connecting'); 
     const [invoiceRefreshTrigger, setInvoiceRefreshTrigger] = useState(0); 
 
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login'); 
+        }
+    }, [navigate]); 
+
     const fetchDashboardData = async () => {
         try {
             const walletData = await getMyWallet();
@@ -37,7 +44,12 @@ const DashboardPage = () => {
             setWallet(walletData);
             setTransactions(txData);
         } catch (error) {
+
             console.error("Failed to fetch ledger data", error);
+            if (error?.response?.status === 401 || error?.response?.status === 403) {
+                logout(); 
+                navigate('/login'); 
+            }
         } finally {
             setLoading(false);
         }

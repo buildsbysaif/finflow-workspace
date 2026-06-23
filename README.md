@@ -7,7 +7,9 @@
 ![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
 ![Stripe](https://img.shields.io/badge/Stripe-626CD9?style=for-the-badge&logo=Stripe&logoColor=white)
 
-> **Live Demo:** [Insert Deployment Link Here]
+> **Live Demo:** [finflow-enterprise.vercel.app](https://finflow-enterprise.vercel.app/)
+> 
+> ⚡ **Infrastructure Note:** The React frontend is distributed via Vercel's Edge Network for instant load times, while the Spring Boot REST API is hosted on a free-tier Render container. If the platform has been idle, the initial login/handshake may take **50–60 seconds** while the backend provisions and boots up. All subsequent ledger transactions and WebSocket connections will execute in real-time.
 
 ![Finflow Dashboard](./docs/dashboard-preview.png)
 
