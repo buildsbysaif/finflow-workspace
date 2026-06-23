@@ -65,19 +65,19 @@ const LoginPage = () => {
                             {clusterStatus === 'connected' && (
                                 <div className="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full text-[10px] font-mono font-bold text-emerald-400 animate-fadeIn">
                                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                                    <span>SYSTEM LINK ACTIVE: DOCKER CLUSTER CONNECTED</span>
+                                    <span>CLOUD SECURE: RENDER API ACTIVE</span>
                                 </div>
                             )}
                             {clusterStatus === 'disconnected' && (
                                 <div className="inline-flex items-center space-x-2 bg-rose-500/10 border border-rose-500/20 px-3 py-1 rounded-full text-[10px] font-mono font-bold text-rose-400 animate-fadeIn">
                                     <span className="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
-                                    <span>API OFFLINE: DOCKER CLUSTER UNREACHABLE</span>
+                                    <span>SYSTEM IDLE: WAKING CLOUD CONTAINER...</span>
                                 </div>
                             )}
                             {clusterStatus === 'pinging' && (
                                 <div className="inline-flex items-center space-x-2 bg-amber-500/10 border border-amber-500/20 px-3 py-1 rounded-full text-[10px] font-mono font-bold text-amber-400 animate-fadeIn">
                                     <Loader2 size={12} className="animate-spin text-amber-400" />
-                                    <span>PROBING DOCKER NETWORK...</span>
+                                    <span>PROBING CLOUD INFRASTRUCTURE...</span>
                                 </div>
                             )}
                         </div>
